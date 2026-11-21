@@ -39,6 +39,8 @@ Transparent PNG/WebP inputs are flattened onto white first, because JPEG has no 
 | Quality experiments | Queue several qualities (e.g. 90, 50, 10) with the same image and count. Final results appear side by side, labelled by quality. |
 | Statistics | File size and PSNR vs compression count as SVG charts, with all experiments overlaid, a log/linear x-axis and hover tooltips. |
 | Export | Final image, individual snapshots, a ZIP of all snapshots (plus the original and the CSV), and a CSV of statistics. |
+| Intro video | On the first visit of each browser session, the YouTube video ([youtu.be/QDto0H8AB7s](https://youtu.be/QDto0H8AB7s)) opens in a centered 16:9 popup with a dimmed, blurred backdrop. It uses the official IFrame Player API and autoplays (or starts muted with an unmute button if the browser blocks sound). Close it with X, "Skip to website", Esc or a backdrop click; it also closes by itself when the video ends. Closing destroys the player so playback stops. If YouTube can't load, the popup says so and you can continue right away. The header's **Watch the video** button reopens it. |
+| Credit | `@technicallystem` in the header's top-right corner links to the YouTube channel. |
 | Presentation mode | Press **P**. Hides the sidebar and settings, enlarges the visuals, and keeps a minimal floating Start/Pause/Resume/Stop bar. **Esc** exits. |
 
 ### About the statistics
@@ -83,7 +85,7 @@ src/
     decode.ts      decoded-image cache for the comparison viewer
     download.ts    file names, CSV, ZIP (fflate)
     format.ts      formatting and format sniffing
-  components/      Uploader, Settings, LiveView, Compare, ViewPane, Timeline, Experiments, Charts, ExportPanel
+  components/      Uploader, Settings, LiveView, Compare, ViewPane, Timeline, Experiments, Charts, ExportPanel, VideoIntro
 ```
 
 ## Browser support

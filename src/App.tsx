@@ -10,6 +10,7 @@ import { Timeline } from './components/Timeline';
 import { Experiments } from './components/Experiments';
 import { Charts } from './components/Charts';
 import { ExportPanel } from './components/ExportPanel';
+import { VideoIntro, shouldAutoShowIntro } from './components/VideoIntro';
 
 function useWebpEncodeSupport() {
   const [ok, setOk] = useState<boolean | null>(null);
@@ -29,6 +30,7 @@ export default function App() {
   const [a, setA] = useState<SourceRef>({ kind: 'original' });
   const [b, setB] = useState<SourceRef>({ kind: 'original' });
   const [dragging, setDragging] = useState(false);
+  const [videoOpen, setVideoOpen] = useState(shouldAutoShowIntro);
   const webp = useWebpEncodeSupport();
   const { original, experiments, active, running } = lab;
 
@@ -53,7 +55,7 @@ export default function App() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement;
-      if (t.closest('input, select, textarea')) return;
+      if (videoOpen || t.closest('input, select, textarea')) return;
       if (e.key === 'p' || e.key === 'P') setPresenting((p) => !p);
       else if (e.key === 'Escape' && !document.fullscreenElement) setPresenting(false);
       else if (e.key === ' ' && running) {
@@ -64,7 +66,7 @@ export default function App() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [running, lab]);
+  }, [running, lab, videoOpen]);
 
   // Accept a dropped image anywhere on the page (when not mid-experiment).
   useEffect(() => {
@@ -102,9 +104,25 @@ export default function App() {
           <h1>Image Compression Lab</h1>
           <p className="muted">Re-encode an image again and again and watch what's lost. Everything runs in your browser.</p>
         </div>
-        <button type="button" onClick={() => setPresenting(true)} disabled={!original} data-testid="btn-present">
-          Presentation mode <kbd>P</kbd>
-        </button>
+        <div className="topbar-right">
+          <a
+            className="creator-credit"
+            href="https://www.youtube.com/@technicallystem"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="creator-credit"
+          >
+            @technicallystem
+          </a>
+          <div className="row">
+            <button type="button" onClick={() => setVideoOpen(true)} data-testid="btn-watch-video">
+              ▶ Watch the video
+            </button>
+            <button type="button" onClick={() => setPresenting(true)} disabled={!original} data-testid="btn-present">
+              Presentation mode <kbd>P</kbd>
+            </button>
+          </div>
+        </div>
       </header>
 
       <div className="layout">
@@ -166,7 +184,8 @@ export default function App() {
         </div>
       )}
 
-      {dragging && !lab.isBusy && <div className="drop-overlay">Drop image to load it</div>}
+      {dragging && !lab.isBusy && !videoOpen && <div className="drop-overlay">Drop image to load it</div>}
+      {videoOpen && <VideoIntro onClose={() => setVideoOpen(false)} />}
     </div>
   );
 }
