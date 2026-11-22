@@ -1,6 +1,6 @@
 # Image Compression Lab
 
-A browser-only lab for the YouTube experiment **"I Compressed an Image 1,000 Times."**
+A browser-only lab for the YouTube experiment **"How Much Abuse Can a JPEG Survive / I Compressed an Image 1,000 Times."**
 Upload an image, choose a quality and a number of compressions (1–10,000), and watch generation loss happen live. Every number on screen is measured from the real encoded files and pixels.
 
 No backend, no paid APIs. It's built with React, TypeScript and Vite and deploys to Vercel's free tier as a static site.
